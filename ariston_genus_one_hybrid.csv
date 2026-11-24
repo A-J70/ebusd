@@ -50,7 +50,7 @@ w,broadcast,ebus_reset,Reset ebus,,fe,2031,ffffffffffffffffffffffff23fe00,ebus_r
 b,broadcast,bus_control,Bus Control,,fe,2038,,ign,,IGN:5
 
 # Device Serial Numbers, commented here as Ebusd doesn't allow multiple lines with the same PBSB,COMMAND but different senders
-# 7f QQ, fe ZZ, 2031 PBSB, NO COMMAND CODE, 10 LEN, XXXXXXX...XXXXXXX 16 Hex bytes for serial (grab the first 12)  
+# 7f QQ, fe ZZ, 2031 PBSB, NO COMMAND CODE, 10 LEN, XXXXXXX...XXXXXXX 16 Hex bytes for serial (grab the first 12)
 # NOT confirmed, the messages are sparse on the bus and it seems impossible to request the data with direct ask command
 b,broadcast,hp_serial_number,HPSerial,13,fe,2031,,value,,STR:12
 b,broadcast,boiler_serial_number,BoilerSerial,37,fe,2031,,value,,STR:12
@@ -58,7 +58,7 @@ b,broadcast,gw_serial_number,GWSerial,70,fe,2031,,value,,STR:12
 b,broadcast,sensys_serial_number,SystemSerial,7f,fe,2031,,value,,STR:12
 
 
-# 2002 PBSB with 000000 command seems to be used for gathering devices FW version, NOT CONFIRMED, only the remote command is 
+# 2002 PBSB with 000000 command seems to be used for gathering devices FW version, NOT CONFIRMED, only the remote command is
 # verified (by accident??)
 r,sensys,remote_command_sw_version,RC-SW-Ver,,75,2002,000000,ign,s,IGN:3,,,,value,s,HEX:3
 r,sensys,boiler_sw_version,Boiler-SW-Ver,,3c,2002,000000,ign,s,IGN:1,,,,value,s,HEX:3
@@ -73,12 +73,12 @@ r,sensys,Address_23_sw_version,Boiler-SW-Ver,,23,2002,000000,ign,s,IGN:1,,,,valu
 
 
 # Error CSV line came from https://github.com/ysard/ebusd_configuration_chaffoteaux_bridgenet, I just added energymgr line for hybrid systems
-# Line to direcly ask boiler and energymgr the last error raised (last memory slot) 10 messages are stored, having history in HA I skip the others 
+# Line to direcly ask boiler and energymgr the last error raised (last memory slot) 10 messages are stored, having history in HA I skip the others
 r,boiler,last_error,Last Error,,3c,2002,0400,,s,error_code,,,7 first bits of byte,zone,s,BI0:7,,,,,s,IGN:2,,,Date: YY/MM/DD,year,s,UCH,,,,month,s,UCH,,,,day,s,UCH,,,,time,s,HTM,,
 r,energymgr,last_error, Last Error,,18,2002,0400,,s,error_code,,,7 first bits of byte,zone,s,BI0:7,,,,,s,IGN:2,,,Date: YY/MM/DD,year,s,UCH,,,,month,s,UCH,,,,day,s,UCH,,,,time,s,HTM,,
 
 
-# Line to decode the instant publishing of casted errors, the line works but when no error are present the system throws every hour 
+# Line to decode the instant publishing of casted errors, the line works but when no error are present the system throws every hour
 # the error ec=236 and, 20/22minutes later the ee=238 value (kind of continuous keepalive/test??) 6c0;136;0c
 # Ebusd doesn't allow multiple line with the same PBSB, even from different senders, I map all errors to the energymgr device
 b,energymgr,error,HP Casted Error,,fe,2004,,,m,error_code,,
@@ -113,11 +113,11 @@ r,boiler,boiler_current_modulation,Boiler Current Gas Modulation,,3c,2000,c404,i
 #Boiler Broadcasted messages
 b,boiler,boiler_status,Boiler Status,,fe,2010,c04b,boilerstatus,,UCH,1=standby;2=heating;3=heating hot water;4=water tank;5=circulating;23=manual test;24=comfort;31=gas_circuit_deaeration;36=auto_calibration;51=low_water_pressure;52=no_flame
 r,boiler,boiler_status,Boiler Status,,3c,2000,c04b,ign,s,IGN:1,,,,boilerstatus,s,UCH,1=standby;2=heating;3=heating hot water;4=water tank;5=circulating;23=manual test;24=comfort;31=gas_circuit_deaeration;36=auto_calibration;51=low_water_pressure;52=no_flame
-r,boiler,dhw_max_power_pct,DHW Bolier Max Power PCT,,3c,2000,6229,ign,s,IGN:1,,,,,s,UCH,,pct
-r,boiler,heat_max_power_pct,Heating Bolier Max Power PCT,,3c,2000,6329,ign,s,IGN:1,,,,,s,UCH,,pct
-r,boiler,heat_min_power_pct,Heating Bolier Min Power PCT,,3c,2000,6429,ign,s,IGN:1,,,,,s,UCH,,pct
+r,boiler,dhw_max_power_pct,DHW Boiler Max Power PCT,,3c,2000,6229,ign,s,IGN:1,,,,,s,UCH,,pct
+r,boiler,heat_max_power_pct,Heating Boiler Max Power PCT,,3c,2000,6329,ign,s,IGN:1,,,,,s,UCH,,pct
+r,boiler,heat_min_power_pct,Heating Boiler Min Power PCT,,3c,2000,6429,ign,s,IGN:1,,,,,s,UCH,,pct
 r,boiler,slow_ignition_power_pct,Slow Ignition Power PCT,,3c,2000,6529,ign,s,IGN:1,,,,,s,UCH,,pct
-r,boiler,heat_max_adj_power_pct,Heating Bolier Max Adjustable Power PCT,,3c,2000,6629,ign,s,IGN:1,,,,,s,UCH,,pct
+r,boiler,heat_max_adj_power_pct,Heating Boiler Max Adjustable Power PCT,,3c,2000,6629,ign,s,IGN:1,,,,,s,UCH,,pct
 r,boiler,pump_max_pwm,Pump Max PWM,,3c,2000,c928,,s,IGN:1,,,,,s,UCH,,pct
 r,boiler,pump_min_pwm,Pump Min PWM,,3c,2000,ca28,,s,IGN:1,,,,,s,UCH,,pct
 r,boiler,pressure_monitoring_device,Pressure Monitoring Device,,3c,2000,c328,ign,s,IGN:1,,,,,s,UCH,0=temp_probe;1=pressure_switch;2=pressure_sensor
@@ -133,7 +133,7 @@ r,boiler,fan_speed,Boiler Fan Speed,,3c,2000,4013,,s,IGN:1,,,,,,UIN,,rpm
 
 #Boiler Maintenance Schedule (expressed in number of months to next maintenance needed)
 #r,boiler,maintenance_months,Month to next maintenance,,3c,2001,c627,ign,s,IGN:1,,,,,s,UCH
-r,boiler,maintenance_months,Month to next maintenance,,3c,2001,c627,,s,UCH        
+r,boiler,maintenance_months,Month to next maintenance,,3c,2001,c627,,s,UCH
 w,boiler,maintenance_months,Month to next maintenance,,3c,2020,c627,,m,UCH
 
 #Boiler Maintenance Requred Warning Enable/Disable (0=No Warning,1=Warning on scheduled maintenance)
@@ -164,8 +164,10 @@ r,energymgr,aux_2_afr_mean,HV IN 3,,18,2000,d32a,,s,IGN:1,,,,,,UCH,0=None;1=Faul
 
 r,energymgr,aux_2_pump,HV IN 3,,18,2000,cf2c,,s,IGN:1,,,,,,BCD,0=Auxiliary circulator;1=Cooling circulator;2=Buffer circulator
 
+r,energymgr,aux_1_mean,HV IN 3,,18,2000,d42a,,s,IGN:1,,,,,,BCD,0=None;1=Humidistat sensor
+
 #Energy Manager - HP Settings 1
-r,energymgr,hydraulic_scheme,Hydraulic Scheme,,18,2000,dc28,,s,IGN:1,,,,,,BCD,0=none;1=bolier;2=boiler_buffer
+r,energymgr,hydraulic_scheme,Hydraulic Scheme,,18,2000,dc28,,s,IGN:1,,,,,,BCD,0=none;1=boiler;2=boiler_buffer
 r,energymgr,hp_disable_ext_temp_threshold,HP disable ext. temp threshold,,18,2000,7226,,s,IGN:1,,,,,,SIN,10,°C
 w,energymgr,hp_disable_ext_temp_threshold,HP disable ext. temp threshold,,fe,2020,7226,,s,SIN,10,°C
 r,energymgr,boiler_disable_ext_temp_threshold,Boiler disable ext. temp threshold,,18,2000,7126,,s,IGN:1,,,,,,SIN,10,°C
@@ -176,6 +178,9 @@ r,heatpump,boost_time,HP boost time,,18,2000,602b,,s,IGN:1,,,,,,MIN,,min
 #r,energymgr,ext_temp_offset,External Temp Correction,,18,2000,7426,,s,IGN:1,,,,,,SIN,10,°C
 r,energymgr,protech_anode,ProTech Anode,,18,2000,0d23,,s,IGN:1,,,,,s,onoff
 r,energymgr,pump_antiblock,Pump Antiblocking,,18,2000,1823,,s,IGN:1,,,,,s,onoff
+r,energymgr,em_delta_t,EM Delta T for Modulation,,18,2000,7b2b,,s,IGN:1,,,,,,SIN,10,°C
+b,energymgr,em_delta_t,EM Delta T for Modulation,,fe,200f,7b2b,,,SIN,10,°C
+w,energymgr,em_delta_t,EM Delta T for Modulation,,fe,2020,7b2b,,s,SIN,10,°C
 
 #Energy Manager - Cooling
 r,energymgr,cooling_available,Cooling Function Available,,18,2000,1023,,s,IGN:1,,,,,s,onoff
@@ -294,7 +299,7 @@ b,energymgr,z2_room_temp,Z2 Room Temp,,fe,2020,7218,,,SIN,10,°C,,,,,,,,,,,,,,,,
 b,energymgr,z2_setpoint_temp,Z2 Current Setpoint,,fe,200f,6A96,,,SIN,10,°C,,,,,,,,,,,,,,,,,,,,,,
 r,energymgr,z2_heat_request,Z2 Heating Request,,18,2000,0291,,s,IGN:1,,,,,s,onoff
 #Z2 Cooling Settings
-#r,energymgr,z2_cool_setpoint_temp_set,Z2 Cooling Forced Setpoint Temp,,18,2000,7072,,s,IGN:1,,,,,,SIN,10,°C 
+#r,energymgr,z2_cool_setpoint_temp_set,Z2 Cooling Forced Setpoint Temp,,18,2000,7072,,s,IGN:1,,,,,,SIN,10,°C
 b,energymgr,z2_cool_setpoint_temp_set,Z2 Cooling Forced Setpoint Temp,,fe,200f,7072,z2_cool_setpoint_temp,,SIN,10,°C
 w,energymgr,z2_cool_setpoint_temp_set,Z2 Cooling Set Temp,,fe,2020,7072,,s,SIN,10,°C
 r,energymgr,z2_cool_temp_range,Z2 cooling Temp Range,,18,2000,0682,,s,IGN:1,,,,,,BCD,0=fancoil;1=underfloorheating
@@ -328,7 +333,7 @@ w,energymgr,z3_heat_therm_type_selection,Z3 Heating Thermoreg Type Selection,,fe
 r,energymgr,z3_heat_slope,Z3 Heat Thermoreg Slope,,18,2000,6a73,,s,IGN:1,,,,,,UIN,100
 w,energymgr,z3_heat_slope,Z3 Heat Thermoreg Slope,,fe,2020,6a73,,s,UIN,100
 #r,energymgr,z3_heat_offset,Z3 Heat Thermoreg Offset,,18,2000,6473,,s,IGN:1,,,,,,SCH,10
-b,energymgr,z3_heat_offset_bcast,Z3 Heating Offset,13,fe,200e,6473,,,SIN,10,°C
+b,energymgr,z3_heat_offset,Z3 Heating Offset,13,fe,200e,6473,,,SIN,10,°C
 w,energymgr,z3_heat_offset,Z3 Heat Thermoreg Offset,,fe,2020,6473,,s,SCH,10
 r,energymgr,z3_heat_room_temp_infl,Z3 Heating Room Temp Influence,,18,2000,c27b,,s,IGN:1,,,,,,UCH
 w,energymgr,z3_heat_room_temp_infl,Z3 Heating Room Temp Influence,,fe,2020,c27b,,s,UCH
@@ -400,7 +405,7 @@ b,energymgr,ext_temp,External Temp,,fe,200f,7647,,,SIN,10,°C
 b,boiler,ext_temp,External Temp,,fe,2010,7310,,,SIN,10,°C,32767=0
 
 
-b,energymgr,heat_temp_range,Heating Temp Range,13,fe,2020,0081,z1_heat_range,,BCD,0=low;1=high,,,,,IGN:2,,,,z2_heat_range,,BCD,0=low;1=hign,,,,s,IGN:2,,,,z3_heat_range,,BCD,0=low;1=high
+b,energymgr,heat_temp_range,Heating Temp Range,13,fe,2020,0081,z1_heat_range,,BCD,0=low;1=high,,,,,IGN:2,,,,z2_heat_range,,BCD,0=low;1=high,,,,s,IGN:2,,,,z3_heat_range,,BCD,0=low;1=high
 #b,energymgr,heat_therm_type_selection,Heating Thermolregulation Type,,fe,200f,c079,z1_therm_type,,BCD,0=fixed_temp;1=basic_on_off;2=outdoor_temp_only;3=room_temp_only;4=outdoor_and_room,,,,s,IGN:3,,,,z2_therm_type,s,BCD,0=fixed_temp;1=basic_on_off;2=outdoor_temp_only;3=room_temp_only;4=outdoor_and_room,,,,s,IGN:3,,,,z3_therm_type,s,BCD,0=fixed_temp;1=basic_on_off;2=outdoor_temp_only;3=room_temp_only;4=outdoor_and_room
 #b,energymgr,heat_slope,Heating Slope,,fe,2020,6a71,z1_heat_slope,,UIN,100,,,,m,IGN:2,,,,z2_heat_slope,,UIN,100,,,,m,IGN:2,,,,z3_heat_slope,,UIN,100
 
@@ -455,14 +460,14 @@ w,heatpump,pump_operation,Pump Operation,,fe,2020,c32a,,s,UCH,0=low_speed;1=high
 #Menu - HP Diagnostic 1 Menu
 # Onderstaande moet ook 1e zijn ipv 18
 #r,heatpump,heatpump_ext_temp,External Temp,,18,2000,7810,,s,IGN:1,,,,,,SIN,10,°C
-#r,heatpump,heatpump_LWT_temp,Heatpump Waterflow T emp,,18,2000,7610,,s,IGN:1,,,,,,SIN,10,°C
+#r,heatpump,heatpump_LWT_temp,Heatpump Waterflow Temp,,18,2000,7610,,s,IGN:1,,,,,,SIN,10,°C
 #r,heatpump,heatpump_EWT_temp,Heatpump Water Return Temp,,18,2000,7710,,s,IGN:1,,,,,,SIN,10,°C
 #r,heatpump,heatpump_evaporator_temp,Heatpump Evaporator Temp,,18,2000,7910,,s,IGN:1,,,,,,SIN,10,°C
 #r,heatpump,heatpump_suction_temp,Heatpump Suction Temp,,18,2000,7217,,s,IGN:1,,,,,,SIN,10,°C
 #r,heatpump,heatpump_comp_discharge_temp,Heatpump Compr Discharge Temp,,18,2000,7317,,s,IGN:1,,,,,,SIN,10,°C
 #r,heatpump,heatpump_condenser_outlet_temp,Heatpump Condenser Outlet Temp,,18,2000,7117,,s,IGN:1,,,,,,SIN,10,°C
 r,heatpump,heatpump_ext_temp,External Temp,,1e,2000,7810,,s,IGN:1,,,,,,SIN,10,°C
-r,heatpump,heatpump_LWT_temp,Heatpump Waterflow T emp,,1e,2000,7610,,s,IGN:1,,,,,,SIN,10,°C
+r,heatpump,heatpump_LWT_temp,Heatpump Waterflow Temp,,1e,2000,7610,,s,IGN:1,,,,,,SIN,10,°C
 r,heatpump,heatpump_EWT_temp,Heatpump Water Return Temp,,1e,2000,7710,,s,IGN:1,,,,,,SIN,10,°C
 r,heatpump,heatpump_evaporator_temp,Heatpump Evaporator Temp,,1e,2000,7910,,s,IGN:1,,,,,,SIN,10,°C
 r,heatpump,heatpump_suction_temp,Heatpump Suction Temp,,1e,2000,7217,,s,IGN:1,,,,,,SIN,10,°C
@@ -489,7 +494,7 @@ r,heatpump,heatpump_electric_heater,Heatpump Electric Heater,,1e,2000,1c45,,s,IG
 r,heatpump,heatpump_flowmeter,Heatpump Flow Meter,,1e,2000,6e13,,s,IGN:1,,,,,,UIN,10,L
 r,heatpump,heatpump_flow_switch,Flow Switch State,,1e,2000,0c45,,s,IGN:1,,,,,,BCD,0=open;1=closed
 r,heatpump,heatpump_shutoff_protection,Heatpump Compressor Shutoff Protection,,1e,2000,1045,,s,IGN:1,,,,,s,onoff,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-r,heatpump,heatpump_evap_pressure,Heatpump Evapourator Pressure,,1e,2000,6c4f,,s,IGN:1,,,,,,UIN,10,bar
+r,heatpump,heatpump_evap_pressure,Heatpump Evaporator Pressure,,1e,2000,6c4f,,s,IGN:1,,,,,,UIN,10,bar
 r,heatpump,heatpump_cond_pressure,Heatpump Condenser Pressure,,1e,2000,6d4f,,s,IGN:1,,,,,,UIN,10,bar
 #Menu - HP Diagnostic 3 Menu
 r,heatpump,heatpump_inverter_nominal_power,Heatpump Inverter Nominal Power,,1e,2000,6947,,s,IGN:1,,,,,,UIN,,kW
@@ -499,7 +504,7 @@ r,heatpump,heatpump_compr_modulation,Heatpump Compressor Modulation,,1e,2000,c44
 #r,heatpump,heatpump_main_pump,Heatpump Main Pump,,18,2000,c200,,s,IGN:1,,,,,s,onoff
 r,heatpump,heatpump_fan1_speed,Heatpump Fan1 Speed,,1e,2000,6e4f,,s,IGN:1,,,,,,UIN
 r,heatpump,heatpump_fan2_speed,Heatpump Fan2 Speed,,1e,2000,6f4f,,s,IGN:1,,,,,,UIN
-r,heatpump,heatpump_exp_valve,Heatpump Espansion Valve,,1e,2000,704f,,s,IGN:1,,,,,,UIN
+r,heatpump,heatpump_exp_valve,Heatpump Expansion Valve,,1e,2000,704f,,s,IGN:1,,,,,,UIN
 #strange results, to be confirmed
 r,heatpump,heatpump_compr_current,Heatpump Comp Current,,1e,2000,714f,,s,UIN,10,A
 #Menu - HP Diagnostic 4 Menu
@@ -607,7 +612,7 @@ r,energymgr,config_version_counter,System Configuration Change Counter,,84,2000,
 
 # vervang 18 door 1e
 #r,heatpump,config_version_counter,System Configuration Change Counter,,18,2000,d140,ign,s,IGN:1,,,,,,UCH,,,,,,,,,,,,,,,,,,,,,,,,,
-r,heatpump,config_version_counter,System Configuration Change Counter,,18,2000,d140,ign,s,IGN:1,,,,,,UCH,,,,,,,,,,,,,,,,,,,,,,,,
+r,heatpump,config_version_counter,System Configuration Change Counter,,1e,2000,d140,ign,s,IGN:1,,,,,,UCH,,,,,,,,,,,,,,,,,,,,,,,,
 
 r,boiler,config_version_counter,System Configuration Change Counter,,3c,2000,d140,ign,s,IGN:1,,,,,,UCH,,,,,,,,,,,,,,,,,,,,,,,,
 
@@ -627,22 +632,22 @@ r,boiler,config_version_counter,System Configuration Change Counter,,3c,2000,d14
 #r,ignored,ign2,37fe2000020520,37,fe,2000,0520
 #r,ignored,ign3,37fe2000020220,37,fe,2000,0220
 
-# 2051 command is related to DHW time program messages, parsed only to remove from ebusd logs 
-# the related "errors" of unknown messages; the protocol has been decoded, see  
+# 2051 command is related to DHW time program messages, parsed only to remove from ebusd logs
+# the related "errors" of unknown messages; the protocol has been decoded, see
 # https://github.com/ysard/ebusd_configuration_chaffoteaux_bridgenet#protocol-of-timer-programs
 # I won't try to implement it here because the default Ariston brand mobile app is already doing
 # a fairly decent job to do schedule programming
 
 b,ignored,ign4,QQfe2051XXXXX,,fe,2051,,ign,,IGN:14
 
-# 2050 command is PROBABLY related to HEATING/COOLING time program messages, parsed here only to 
-# remove from ebusd logs the related "errors" of unknown messages; 
+# 2050 command is PROBABLY related to HEATING/COOLING time program messages, parsed here only to
+# remove from ebusd logs the related "errors" of unknown messages;
 # I won't try to decode/implement it here because the default Ariston brand mobile app is already doing
 # a fairly decent job to do schedule programming
 b,ignored,ign5,QQfe2050XXXXX,,fe,2050,,ign,,IGN:11
 
 
-# 13fe20100c059100000691000007910000 
+# 13fe20100c059100000691000007910000
 # 0591, 0691, 0791 are Z5,6,7 heat request, discarded as not relevant to my use case
 b,ignored,ign6,QQfe2010XX0591,,fe,2010,0591,ign,,IGN:10
 
@@ -673,10 +678,10 @@ b,ignored,ign6,QQfe2010XX0591,,fe,2010,0591,ign,,IGN:10
 ####   Sensys (adres 70) kamerthermostaten - kamertemperatuur per zone                ####
 ############################################################################################
 
-r,energymgr,z1_room_temp_sensys_hd,Z1 Room Temp,70,fe,2010,7118,,s,SIN,10,°C
-r,energymgr,z2_room_temp_sensys_hd,Z2 Room Temp,70,fe,2010,7218,,s,SIN,10,°C
-r,energymgr,z3_room_temp_sensys_hd,Z3 Room Temp,70,fe,2010,7318,,s,SIN,10,°C
-r,energymgr,z4_room_temp_sensys_hd,Z4 Room Temp,70,fe,2010,7418,,s,SIN,10,°C
+b,energymgr,z1_room_temp_sensys_hd,Z1 Room Temp,70,fe,2010,7118,,,SIN,10,°C
+b,energymgr,z2_room_temp_sensys_hd,Z2 Room Temp,70,fe,2010,7218,,,SIN,10,°C
+b,energymgr,z3_room_temp_sensys_hd,Z3 Room Temp,70,fe,2010,7318,,,SIN,10,°C
+b,energymgr,z4_room_temp_sensys_hd,Z4 Room Temp,70,fe,2010,7418,,,SIN,10,°C
 
 # Relatieve luchtvochtigheid (alleen Z1 actief; de Cube meet geen RV in Z2-Z4)
 #b,energymgr,z2_room_humi,Z2 Room Humi,13,fe,2010,cAc1,,,UIN,,% de Cube meet geen RV
@@ -713,7 +718,7 @@ w,energymgr,z4_heat_request_mode,Z4 Heating Request Mode,,fe,2020,ce7c,,s,UCH
 
 # z1-z3 worden al gedekt door de actieve heat_request broadcast in v2.6 (13,fe,2010,0191)
 # z4 via hetzelfde PBSB 2010 bericht, ID 0491 (patroon: 0191=z1 t/m 0491=z4)
-b,energymgr,z4_heat_request,Z4 Heating Request,13,fe,2010,0491,,,BCD,0=off;1=on
+# b,energymgr,z4_heat_request,Z4 Heating Request,13,fe,2010,0491,,,BCD,0=off;1=on  (overbodig: z4 zit in de 13,fe,2010,0191 broadcast hieronder; ID 0491 komt niet los voor)
 
 # Directe reads per zone (optioneel, conform v2.6 patroon Z1-Z3)
 #r,energymgr,z1_heat_request,Z1 Heating Request,,18,2000,0191,,s,IGN:1,,,,,s,onoff
@@ -732,6 +737,6 @@ b,energymgr,z4_heat_request,Z4 Heating Request,13,fe,2010,0491,,,BCD,0=off;1=on
 
 ##deze werkt niet, de oude wel?
 #b,energymgr,heat_request,Heating Request,13,fe,2010,0191,z1_heat_request,,BCD,0=off;1=on,,,,,IGN:3,,,,z2_heat_request,,BCD,0=off;1=on,,,,,IGN:3,,,,z3_heat_request,,BCD,0=off;1=on,,,,,IGN:3
-b,energymgr,heat_request,Heating Request,13,fe,2010,0191,z1_heat_request,s,BCD,0=off;1=on,,,,s,IGN:3,,,,z2_heat_request,s,BCD,0=off;1=on,,,,s,IGN:3,,,,z3_heat_request,s,BCD,0=off;1=on,,,,s,IGN:3,,,,z4_heat_request,s,BCD,0=off;1=on
+b,energymgr,heat_request,Heating Request,13,fe,2010,0191,z1_heat_request,,BCD,0=off;1=on,,,,,IGN:3,,,,z2_heat_request,,BCD,0=off;1=on,,,,,IGN:3,,,,z3_heat_request,,BCD,0=off;1=on,,,,,IGN:3,,,,z4_heat_request,,BCD,0=off;1=on
 
-r,energymgr,heat_request_mode,Heating Request Mode,,fe,2020,cb7f00ce79,z1_heat_request_mode,,BCD,0=standard;1=no_time_program;2=forced,,,,,IGN:2,,,,z2_heat_request_mode,,BCD,0=standard;1=no_time_program;2=forced,,,,,IGN:2,,,,z3_heat_request_mode,,BCD,0=standard;1=no_time_program;2=forced,,,,,IGN:2,,,,z4_heat_request_mode,,BCD,0=standard;1=no_time_program;2=forced
+b,energymgr,heat_request_mode,Heating Request Mode,,fe,2020,cb7f00ce79,z1_heat_request_mode,,BCD,0=standard;1=no_time_program;2=forced,,,,,IGN:2,,,,z2_heat_request_mode,,BCD,0=standard;1=no_time_program;2=forced,,,,,IGN:2,,,,z3_heat_request_mode,,BCD,0=standard;1=no_time_program;2=forced,,,,,IGN:2,,,,z4_heat_request_mode,,BCD,0=standard;1=no_time_program;2=forced

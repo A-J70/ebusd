@@ -237,7 +237,8 @@ w,energymgr,z1_heat_request_mode,Z1 Heating Request Mode,,fe,2020,ce79,,s,UCH
 
 #Z1 Diagnostic
 #r,energymgr,z1_room_temp,Z1 Room Temp,,18,2000,7118,,s,IGN:1,,,,,,SIN,10,°C
-b,energymgr,z1_room_temp,Z1 Room Temp,,fe,2020,7118,,,SIN,10,°C,,,,,,,,,,,,,,,,,,,,,,
+# Buslog: ID 7118 is nooit gezien op PBSB 2020, wel op 200f (zie sensys_hd hieronder)
+#b,energymgr,z1_room_temp,Z1 Room Temp,,fe,2020,7118,,,SIN,10,°C,,,,,,,,,,,,,,,,,,,,,,
 #r,energymgr,z1_setpoint_temp,Z1 Current Setpoint,,18,2000,6996,,s,IGN:1,,,,,,SIN,10,°C
 b,energymgr,z1_setpoint_temp,Z1 Current Setpoint,,fe,200f,6996,,,SIN,10,°C,,,,,,,,,,,,,,,,,,,,,,
 r,energymgr,z1_heat_request,Z1 Heating Request,,18,2000,0191,,s,IGN:1,,,,,s,onoff
@@ -294,7 +295,8 @@ w,energymgr,z2_heat_request_mode,Z2 Heating Request Mode,,fe,2020,ce7a,,s,UCH
 
 #Z2 Diagnostic
 #r,energymgr,z2_room_temp,Z2 Room Temp,,18,2000,7218,,s,IGN:1,,,,,,SIN,10,°C
-b,energymgr,z2_room_temp,Z2 Room Temp,,fe,2020,7218,,,SIN,10,°C,,,,,,,,,,,,,,,,,,,,,,
+# Buslog: ID 7218 is in de grab nergens gezien (noch op 2020, noch op 200f)
+#b,energymgr,z2_room_temp,Z2 Room Temp,,fe,2020,7218,,,SIN,10,°C,,,,,,,,,,,,,,,,,,,,,,
 #r,energymgr,z2_setpoint_temp,Z2 Current Setpoint,,18,2000,6a96,,s,IGN:1,,,,,,SIN,10,°C
 b,energymgr,z2_setpoint_temp,Z2 Current Setpoint,,fe,200f,6A96,,,SIN,10,°C,,,,,,,,,,,,,,,,,,,,,,
 r,energymgr,z2_heat_request,Z2 Heating Request,,18,2000,0291,,s,IGN:1,,,,,s,onoff
@@ -350,7 +352,8 @@ w,energymgr,z3_heat_request_mode,Z3 Heating Request Mode,,fe,2020,ce7b,,s,UCH
 
 #Z3 Diagnostics
 #r,energymgr,z3_room_temp,Z3 Room Temp,,18,2000,7318,,s,IGN:1,,,,,,SIN,10,°C
-b,energymgr,z3_room_temp,Z3 Room Temp,,fe,2020,7318,,,SIN,10,°C,,,,,,,,,,,,,,,,,,,,,,
+# Buslog: ID 7318 is nooit gezien op PBSB 2020, wel op 200f vanaf adres 01 (zie sensys_hd)
+#b,energymgr,z3_room_temp,Z3 Room Temp,,fe,2020,7318,,,SIN,10,°C,,,,,,,,,,,,,,,,,,,,,,,
 #r,energymgr,z3_setpoint_temp,Z3 Current Setpoint,,18,2000,6b96,,s,IGN:1,,,,,,SIN,10,°C
 b,energymgr,z3_setpoint_temp,Z3 Current Setpoint,,fe,200f,6B96,,,SIN,10,°C,,,,,,,,,,,,,,,,,,,,,,
 r,energymgr,z3_heat_request,Z3 Heating Request,,18,2000,0391,,s,IGN:1,,,,,s,onoff
@@ -678,10 +681,15 @@ b,ignored,ign6,QQfe2010XX0591,,fe,2010,0591,ign,,IGN:10
 ####   Sensys (adres 70) kamerthermostaten - kamertemperatuur per zone                ####
 ############################################################################################
 
-b,energymgr,z1_room_temp_sensys_hd,Z1 Room Temp,70,fe,2010,7118,,,SIN,10,°C
-b,energymgr,z2_room_temp_sensys_hd,Z2 Room Temp,70,fe,2010,7218,,,SIN,10,°C
-b,energymgr,z3_room_temp_sensys_hd,Z3 Room Temp,70,fe,2010,7318,,,SIN,10,°C
-b,energymgr,z4_room_temp_sensys_hd,Z4 Room Temp,70,fe,2010,7418,,,SIN,10,°C
+# Buslog-geverifieerd (ebusctl grab): de thermostaten casten de kamertemperatuur op
+# PBSB 200f (niet 2010/2020), per zone vanaf een ander apparaatadres:
+#   70 fe 200f 05 7118 bc0000 = 18.8 °C (z1), 01 fe 200f 05 7318 a30000 = 16.3 °C (z3),
+#   11 fe 200f 05 7418 b00000 = 17.6 °C (z4). z2 (7218) is in de grab niet gezien.
+# Als een kamertemperatuur leeg blijft na deze wijziging, zet dan PBSB 200f terug naar 2010.
+b,energymgr,z1_room_temp_sensys_hd,Z1 Room Temp,70,fe,200f,7118,,,SIN,10,°C
+b,energymgr,z2_room_temp_sensys_hd,Z2 Room Temp,70,fe,200f,7218,,,SIN,10,°C
+b,energymgr,z3_room_temp_sensys_hd,Z3 Room Temp,01,fe,200f,7318,,,SIN,10,°C
+b,energymgr,z4_room_temp_sensys_hd,Z4 Room Temp,11,fe,200f,7418,,,SIN,10,°C
 
 # Relatieve luchtvochtigheid (alleen Z1 actief; de Cube meet geen RV in Z2-Z4)
 #b,energymgr,z2_room_humi,Z2 Room Humi,13,fe,2010,cAc1,,,UIN,,% de Cube meet geen RV
@@ -737,6 +745,8 @@ w,energymgr,z4_heat_request_mode,Z4 Heating Request Mode,,fe,2020,ce7c,,s,UCH
 
 ##deze werkt niet, de oude wel?
 #b,energymgr,heat_request,Heating Request,13,fe,2010,0191,z1_heat_request,,BCD,0=off;1=on,,,,,IGN:3,,,,z2_heat_request,,BCD,0=off;1=on,,,,,IGN:3,,,,z3_heat_request,,BCD,0=off;1=on,,,,,IGN:3
+# Buslog: ID 0491 (z4) is bevestigd door de grab; dezelfde 4-zonestream staat ook op
+# PBSB 200f (13 fe 200f 0191+0291+0391+0491, 1831x gezien). Blijft z4 leeg, gebruik dan 200f.
 b,energymgr,heat_request,Heating Request,13,fe,2010,0191,z1_heat_request,,BCD,0=off;1=on,,,,,IGN:3,,,,z2_heat_request,,BCD,0=off;1=on,,,,,IGN:3,,,,z3_heat_request,,BCD,0=off;1=on,,,,,IGN:3,,,,z4_heat_request,,BCD,0=off;1=on
 
 b,energymgr,heat_request_mode,Heating Request Mode,,fe,2020,cb7f00ce79,z1_heat_request_mode,,BCD,0=standard;1=no_time_program;2=forced,,,,,IGN:2,,,,z2_heat_request_mode,,BCD,0=standard;1=no_time_program;2=forced,,,,,IGN:2,,,,z3_heat_request_mode,,BCD,0=standard;1=no_time_program;2=forced,,,,,IGN:2,,,,z4_heat_request_mode,,BCD,0=standard;1=no_time_program;2=forced
